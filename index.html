@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<!-- Thiết kế bởi Phạm Trương Hồng Ngân-->
+<!-- Bổ sung bởi Nguyễn Ngọc Truyện B2012277 -->
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thiên Văn Việt Nam</title>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer">
+    <link rel="stylesheet" href="css/main.css">
+    <script src="js/jquery-3.6.0.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>
+
+
+    <script src="js/labels.js"></script>
+    <script src="js/courselist.js"></script>
+
+
+    <script>
+        function setLang(idLang) {
+            localStorage.setItem("lang", idLang);
+            location.reload();
+        }
+
+        function getLang() {
+            if (localStorage.getItem("lang") == undefined)
+                localStorage.setItem("lang", "vi-VN");
+
+            return localStorage.getItem("lang");
+        }
+
+        function showCourseList() {
+            var lang = getLang();
+            $.each(courseList, function(i, obj) {
+                var btn = "<td><div class='d-grid gap-2'><button class='btn btn-success btn-lg' onclick='regCourse(\"" + i + "\");'><i class='far fa-check-square'></i></button></div></td>";
+                $("#course_list").append("<tr><td>" + obj.code + "</td><td>" + obj.name[lang] + "</td></td><td class='text-end'>" + (new Date(obj.startDate)).toLocaleDateString(lang) + "</td><td class='text-end'>" + (new Date(obj.endDate)).toLocaleDateString(lang) + "</td><td class='text-end'>" + (new Intl.NumberFormat(lang, {
+                    style: 'decimal'
+                }).format(obj.fee[lang])) + "</td>" + btn + "</tr>");
+            });
+        }
+
+        $(document).ready(function() {
+            $("body").addClass("loaded");
+
+            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+            var tooltipList = tooltipTriggerList.map(function(tooltipTriggerEl) {
+                return new bootstrap.Tooltip(tooltipTriggerEl)
+            });
+
+            var lang = getLang();
+
+            if (labels != undefined) {
+                $.each($("span.multilang"), function(i, object) {
+
+                    $("#" + object.id).html(labels[object.id][lang]).attr("title", labels[object.id][lang]);
+
+                })
+
+                $.each($("button.multilang"), function(i, obj) {
+                    $("#" + obj.id).attr("title", labels[obj.id][lang]);
+                })
+            }
+
+            showCourseList();
+        })
+    </script>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.19.1/dist/bootstrap-table.min.css">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://unpkg.com/bootstrap-table@1.19.1/dist/bootstrap-table.min.js"></script>
+    <script src="https://unpkg.com/bootstrap-table@1.19.1/dist/extensions/mobile/bootstrap-table-mobile.js"></script>
+
+</head>
+
+<body>
+
+    <!-- Preloader, https://ihatetomatoes.net/create-custom-preloading-screen/ -->
+    <div id="loader-wrapper">
+        <div id="loader"></div>
+        <div class="loader-section section-left"></div>
+        <div class="loader-section section-right"></div>
+    </div>
+
+    <video autoplay muted loop id="bg-video">
+      <source src="video/gfp-astro-timelapse.mp4" type="video/mp4"/>
+  </video>
+
+    <!-- Modal -->
+    <div class="modal fade" id="addressModal" tabindex="-1" aria-labelledby="addressModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header  bg-primary">
+                    <h5 class="modal-title" id="exampleModalLabel">
+                        <span id="MODAL_HEAD" class="multilang"></span>
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body bg-success">
+                    <span id="MODAL_CONTENT" class="multilang"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <header class="container">
+        <div id="language">
+            <img src="images/vn.png" alt="" onclick="setLang('vi-VN')">
+            <img src="images/us.png" alt="" onclick="setLang('en-US')">
+        </div>
+
+        <nav class="navbar navbar-expand-sm">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">
+                    <img id="logo" src="images/logo.png" alt="">
+                    <h5>ASTRONOMIA</h5>
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="#">
+                                <span id="MENU_HOME" class="multilang"></span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                <span id="MENU_ABOUT_US" class="multilang"></span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                <span id="MENU_COURSES" class="multilang"></span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                <span id="MENU_CONTACT" class="multilang"></span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container">
+        <div>
+            <span id="HEAD_SOLAR_SYSTEM" class="multilang"></span>
+        </div>
+        <div class="row">
+
+            <div class="col-sm-6">
+                <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
+                    <div class="carousel-indicators">
+                        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                    </div>
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                            <img src="images/saturn.png" class="d-block w-100" alt="...">
+                            <div class="carousel-caption d-none d-md-block">
+                                <h5>
+                                    <span id="CONTENTS_HEAD_SATURN" class="multilang"></span>
+                                </h5>
+                                <p>
+                                    <span id="CONTENTS_DETAIL_SATURN" class="multilang"></span>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <img src="images/jupiter.png" class="d-block w-100" alt="...">
+                            <div class="carousel-caption d-none d-md-block">
+                                <h5>
+                                    <span id="CONTENTS_HEAD_JUPITER" class=" multilang "></span>
+                                </h5>
+                                <p>
+                                    <span id="CONTENTS_DETAIL_JUPITER" class="multilang"></span>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <img src="images/uranus.png" class="d-block w-100" alt="...">
+                            <div class="carousel-caption d-none d-md-block">
+                                <h5>
+                                    <span id="CONTENTS_HEAD_URANUS" class="multilang "></span>
+                                </h5>
+                                <p>
+                                    <span id="CONTENTS_DETAIL_URANUS" class="multilang "></span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+                  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Previous</span>
+                </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+                  <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Next</span>
+                </button>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="row">
+
+                    <div class="col-6">
+                        <figure class="figure">
+                            <button id="CONTENTS_TITLE_MERCURY" class="btn btn-secondary multilang " data-bs-toggle="tooltip " data-bs-placement="top " title=" ">
+                                <img src="images/mercury.png " class="figure-img img-fluid rounded mb-0 " alt=" ">
+                                <!-- <figcaption class="figure-caption text-end ">A caption for the above image.</figcaption> -->
+                              </button>
+                        </figure>
+                    </div>
+                    <div class="col-6">
+                        <figure class="figure">
+                            <button id="CONTENTS_TITLE_VENUS" class="btn btn-secondary multilang " data-bs-toggle="tooltip " data-bs-placement="top " title=" ">
+                                <img src="images/venus.png " class="figure-img img-fluid rounded mb-0 " alt=" ">
+                                <!-- <figcaption class="figure-caption text-end ">A caption for the above image.</figcaption> -->
+                              </button>
+                        </figure>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <figure class="figure">
+                            <button id="CONTENTS_TITLE_NEPTUNE" class="btn btn-secondary multilang " data-bs-toggle="tooltip " data-bs-placement="top " title=" ">
+                                <img src="images/neptune.png " class="figure-img img-fluid rounded mb-0 " alt=" ">
+                                <!-- <figcaption class="figure-caption text-end ">A caption for the above image.</figcaption> -->
+                            </button>
+                        </figure>
+                    </div>
+                    <div class="col-6">
+                        <figure class="figure">
+                            <button id="CONTENTS_TITLE_MARS" class="btn btn-secondary multilang " data-bs-toggle="tooltip " data-bs-placement="top " title="Sao Hỏa - Mars ">
+                                <img src="images/mars.png " class="figure-img img-fluid rounded mb-0 " alt=" ">
+                                <!-- <figcaption class="figure-caption text-end ">A caption for the above image.</figcaption> -->
+                            </button>
+                        </figure>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="m-2">
+            <span id="HEAD_UPCOMING_COURSES" class="multilang "></span>
+        </div>
+
+        <table data-toggle="table" data-mobile-responsive="true" data-check-on-init="true" class="table table-striped table-light table-hover">
+            <thead>
+                <tr>
+                    <th>
+                        <span id="COURSES_CODE" class="multilang "></span>
+                    </th>
+                    <th>
+                        <span id="COURSES_NAME" class="multilang "></span>
+                    </th>
+                    <th>
+                        <span id="COURSES_STARTDATE" class="multilang "></span>
+                    </th>
+                    <th>
+                        <span id="COURSES_ENDDATE" class="multilang "></span>
+                    </th>
+                    <th>
+                        <span id="COURSES_FEE" class="multilang "></span>
+                    </th>
+                    <th>
+                    </th>
+                </tr>
+            </thead>
+            <tbody id="course_list"></tbody>
+        </table>
+    </main>
+
+    <footer class="container">
+        <span id="COPYRIGHT" class="multilang "></span>
+    </footer>
+</body>
+
+</html>
